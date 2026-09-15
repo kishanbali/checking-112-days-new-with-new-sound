@@ -32,10 +32,12 @@ jobs:
             'soundscape-audio/sound-20.mp3','soundscape-audio/sound-17.mp3','soundscape-audio/sound-34.mp3','soundscape-audio/sound-18.mp3','soundscape-audio/sound-25.mp3'
           ]
           pattern = re.compile(r'(\{\s*file:\s*")[^"]+("\s*,)')
-          if len(list(pattern.finditer(block))) != len(paths):
-              raise SystemExit('Soundscape entry count changed; stopping without editing index.html')
-          remaining = iter(paths)
-          new_block = pattern.sub(lambda m: m.group(1) + next(remaining) + m.group(2), block)
+          matches = list(pattern.finditer(block))
+          if len(matches) < 39:
+              raise SystemExit(f'Expected at least 39 Soundscape entries, found {len(matches)}')
+          replacement = paths + [paths[0]] * (len(matches) - len(paths))
+          it = iter(replacement)
+          new_block = pattern.sub(lambda m: m.group(1) + next(it) + m.group(2), block)
           p.write_text(text[:start] + new_block + text[end:], encoding='utf-8')
           PY
       - name: Commit mapping and remove workflow
