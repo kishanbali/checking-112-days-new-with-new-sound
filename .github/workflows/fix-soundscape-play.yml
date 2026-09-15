@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   fix-soundscape:
-    if: github.event.commits[0].added != null && contains(github.event.commits[0].added, '.github/workflows/fix-soundscape-play.yml')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
