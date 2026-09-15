@@ -1149,9 +1149,11 @@ From Day 13 onward, continue at your own pace — KEMP EYE AI is here for guidan
       soundPlaying = false;
       return;
     }
-    const path = getSoundscapePath(currentDay) + `?v=${APP_VERSION}`;
-    if (audio.src.indexOf(getSoundscapePath(currentDay)) === -1) {
+    const currentSoundPath = getAudioForDay(currentDay);
+    const path = currentSoundPath + `?v=${APP_VERSION}`;
+    if (audio.src.indexOf(currentSoundPath) === -1) {
       audio.src = path;
+      audio.load();
     }
     audio.play().then(() => {
       soundPlaying = true;
