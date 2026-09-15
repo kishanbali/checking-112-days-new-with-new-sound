@@ -1151,10 +1151,12 @@ From Day 13 onward, continue at your own pace — KEMP EYE AI is here for guidan
     }
     const currentSoundPath = getAudioForDay(currentDay);
     const path = currentSoundPath + `?v=${APP_VERSION}`;
-    if (audio.src.indexOf(currentSoundPath) === -1) {
-      audio.src = path;
-      audio.load();
-    }
+    audio.pause();
+    audio.removeAttribute('src');
+    audio.load();
+    audio.src = path;
+    audio.load();
+    audio.currentTime = 0;
     audio.play().then(() => {
       soundPlaying = true;
       btn.innerText = '■ STOP';
