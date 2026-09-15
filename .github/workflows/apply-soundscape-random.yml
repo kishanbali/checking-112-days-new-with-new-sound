@@ -1,0 +1,47 @@
+name: Apply Soundscape Mapping
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply all 17 existing Soundscape sounds to Days 13-51
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          start = text.index('const soundscapePool = [')
+          end = text.index('];', start) + 2
+          block = text[start:end]
+
+          paths = [
+            'soundscape-audio/sound-20.mp3','soundscape-audio/sound-17.mp3','soundscape-audio/sound-34.mp3','soundscape-audio/sound-18.mp3','soundscape-audio/sound-25.mp3','soundscape-audio/sound-28.mp3','soundscape-audio/sound-26.mp3','soundscape-audio/sound-14.mp3','soundscape-audio/sound-06.mp3','soundscape-audio/sound-09.mp3','soundscape-audio/sound-33.mp3','soundscape-audio/sound-01.mp3','soundscape-audio/sound-22.mp3','soundscape-audio/sound-10.mp3','soundscape-audio/sound-04.mp3','soundscape-audio/sound-11.mp3','soundscape-audio/sound-08.mp3',
+            'soundscape-audio/sound-20.mp3','soundscape-audio/sound-17.mp3','soundscape-audio/sound-34.mp3','soundscape-audio/sound-18.mp3','soundscape-audio/sound-25.mp3','soundscape-audio/sound-28.mp3','soundscape-audio/sound-26.mp3','soundscape-audio/sound-14.mp3','soundscape-audio/sound-06.mp3','soundscape-audio/sound-09.mp3','soundscape-audio/sound-33.mp3','soundscape-audio/sound-01.mp3','soundscape-audio/sound-22.mp3','soundscape-audio/sound-10.mp3','soundscape-audio/sound-04.mp3','soundscape-audio/sound-11.mp3','soundscape-audio/sound-08.mp3',
+            'soundscape-audio/sound-20.mp3','soundscape-audio/sound-17.mp3','soundscape-audio/sound-34.mp3','soundscape-audio/sound-18.mp3','soundscape-audio/sound-25.mp3'
+          ]
+          expected = len(paths)
+          pattern = re.compile(r'(\{\s*file:\s*")[^"]+("\s*,)')
+          if len(list(pattern.finditer(block))) != expected:
+              raise SystemExit('Soundscape entry count changed; stopping without editing index.html')
+          remaining = iter(paths)
+          new_block = pattern.sub(lambda m: m.group(1) + next(remaining) + m.group(2), block)
+          p.write_text(text[:start] + new_block + text[end:], encoding='utf-8')
+          PY
+      - name: Commit and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git rm .github/workflows/apply-soundscape-random.yml
+          git commit -m "Use all 17 Soundscape sounds across Days 13-51"
+          git push
