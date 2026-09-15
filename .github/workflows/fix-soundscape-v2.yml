@@ -1,0 +1,42 @@
+name: Fix Soundscape Playback V2
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Fix existing Soundscape playback
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = 'audio.src = path;'
+          if marker not in s:
+              raise SystemExit('Expected Soundscape audio assignment was not found; no files changed.')
+          if 'getSoundscapePath(currentDay)' in s:
+              s = s.replace('getSoundscapePath(currentDay)', 'getAudioForDay(currentDay)')
+          if 'audio.load();' not in s:
+              s = s.replace(marker, marker + '\n  audio.load();', 1)
+          p.write_text(s, encoding='utf-8')
+      - name: Remove temporary files
+        run: |
+          rm -f .soundscape-fix-marker
+          rm -f .github/workflows/fix-soundscape-play.yml
+          rm -f .github/workflows/fix-soundscape-v2.yml
+      - name: Commit fix only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .soundscape-fix-marker .github/workflows/fix-soundscape-play.yml .github/workflows/fix-soundscape-v2.yml
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix Soundscape play button"
+          git push origin HEAD:${{ github.head_ref }}
