@@ -1292,5 +1292,36 @@ From Day 13 onward, continue at your own pace — KEMP EYE AI is here for guidan
       return `soundscape-audio/${AUDIO_FILES[index]}`;
     }  
 </script>
+ <!-- Attribution Link Caption -->
+  <div class="copyright" style="margin-top: 12px; border-top: none; padding-top: 0;">
+    <a href="#" onclick="openAttributionModal(event)" style="color: var(--accent-cyan); text-decoration: underline; cursor: pointer;">
+      View Attributions & Credits
+    </a>
+  </div>
+
+  <!-- Attribution Modal View -->
+  <div id="attribution-modal" style="display: none; position: fixed; inset: 0; background: rgba(10, 13, 20, 0.96); z-index: 1000; padding: 20px; overflow-y: auto;">
+    <div style="max-width: 500px; margin: 40px auto; background: var(--card-bg); border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 20px; text-align: left; color: var(--text-main);">
+      <h3 style="color: var(--accent-gold); margin-top: 0; font-size: 1.1rem;">Attributions & Credits</h3>
+      <div style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 20px;">
+        <!-- Paste your index 8.html content here -->
+        <p>Soundscape audio files, daily tracking techniques, and VBT exercises are credited to their respective original creators.</p>
+      </div>
+      <button onclick="closeAttributionModal()" style="width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function openAttributionModal(e) {
+      if (e) e.preventDefault();
+      document.getElementById('attribution-modal').style.display = 'block';
+    }
+
+    function closeAttributionModal() {
+      document.getElementById('attribution-modal').style.display = 'none';
+    }
+  </script> 
 </body>
 </html>
