@@ -498,7 +498,8 @@
 
   <div class="copyright">© 2026 Kishan Bali / KEMP Wisdom Publications.<br>All rights reserved.<br>
     <a href="#" onclick="resetProgress(); return false;" style="color:var(--text-sub); text-decoration:underline;">Reset Progress</a>    &nbsp;·&nbsp;
-    <a href="#" onclick="showDisclaimer(); return false;" style="color:var(--text-sub); text-decoration:underline;">Health &amp; Safety Disclaimer</a>
+    <a href="#" onclick="showDisclaimer(); return false;" style="color:var(--text-sub); text-decoration:underline;">Health &amp; Safety Disclaimer</a>    &nbsp;·&nbsp;
+    <a href="#" onclick="openAttributionModal(event); return false;" style="color:var(--text-sub); text-decoration:underline;">Attributions &amp; Credits</a>
   </div>
 </div>
 
@@ -1304,13 +1305,6 @@ From Day 13 onward, continue at your own pace — KEMP EYE AI is here for guidan
       const index = Math.abs(hash) % AUDIO_FILES.length;
       return `soundscape-audio/${AUDIO_FILES[index]}`;
     }</script>
- <!-- Attribution Link Caption -->
-  <div class="copyright" style="margin-top: 12px; border-top: none; padding-top: 0;">
-    <a href="#" onclick="openAttributionModal(event)" style="color: var(--accent-cyan); text-decoration: underline; cursor: pointer;">
-      View Attributions & Credits
-    </a>
-  </div>
-
   <!-- Attribution Modal View -->
   <div id="attribution-modal" style="display: none; position: fixed; inset: 0; background: rgba(10, 13, 20, 0.96); z-index: 1000; padding: 20px; overflow-y: auto;">
     <div style="max-width: 500px; margin: 40px auto; background: var(--card-bg); border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 20px; text-align: left; color: var(--text-main);">
