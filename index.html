@@ -497,8 +497,7 @@
   </div>
 
   <div class="copyright">© 2026 Kishan Bali / KEMP Wisdom Publications.<br>All rights reserved.<br>
-    <a href="#" onclick="resetProgress(); return false;" style="color:var(--text-sub); text-decoration:underline;">Reset Progress</a>
-    &nbsp;·&nbsp;
+    <a href="#" onclick="resetProgress(); return false;" style="color:var(--text-sub); text-decoration:underline;">Reset Progress</a>    &nbsp;·&nbsp;
     <a href="#" onclick="showDisclaimer(); return false;" style="color:var(--text-sub); text-decoration:underline;">Health &amp; Safety Disclaimer</a>
   </div>
 </div>
@@ -997,8 +996,7 @@ From Day 13 onward, continue at your own pace — KEMP EYE AI is here for guidan
     const osc = ctx.createOscillator();
     const filter = ctx.createBiquadFilter();
     const gain = ctx.createGain();
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
+    const lfo = ctx.createOscillator();    const lfoGain = ctx.createGain();
 
     osc.type = 'sawtooth';
     osc.frequency.value = 65;
@@ -1286,12 +1284,26 @@ From Day 13 onward, continue at your own pace — KEMP EYE AI is here for guidan
       "sound-34.mp3"
     ];
 
+    // All 17 existing Soundscape sounds, randomly distributed across Days 13–51.
+    const SOUNDscape_DAYS_13_51 = [
+      "sound-14.mp3","sound-01.mp3","sound-25.mp3","sound-08.mp3","sound-33.mp3",
+      "sound-17.mp3","sound-04.mp3","sound-28.mp3","sound-10.mp3","sound-22.mp3",
+      "sound-06.mp3","sound-34.mp3","sound-18.mp3","sound-11.mp3","sound-26.mp3",
+      "sound-20.mp3","sound-09.mp3","sound-25.mp3","sound-06.mp3","sound-17.mp3",
+      "sound-01.mp3","sound-28.mp3","sound-14.mp3","sound-34.mp3","sound-10.mp3",
+      "sound-22.mp3","sound-08.mp3","sound-33.mp3","sound-18.mp3","sound-04.mp3",
+      "sound-26.mp3","sound-20.mp3","sound-11.mp3","sound-09.mp3","sound-14.mp3",
+      "sound-25.mp3","sound-01.mp3","sound-17.mp3","sound-28.mp3"
+    ];
+
     function getAudioForDay(dayNumber) {
+      if (dayNumber >= 13 && dayNumber <= 51) {
+        return `soundscape-audio/${SOUNDscape_DAYS_13_51[dayNumber - 13]}`;
+      }
       const hash = Math.imul(dayNumber, 0x1f351d7b);
       const index = Math.abs(hash) % AUDIO_FILES.length;
       return `soundscape-audio/${AUDIO_FILES[index]}`;
-    }  
-</script>
+    }</script>
  <!-- Attribution Link Caption -->
   <div class="copyright" style="margin-top: 12px; border-top: none; padding-top: 0;">
     <a href="#" onclick="openAttributionModal(event)" style="color: var(--accent-cyan); text-decoration: underline; cursor: pointer;">
